@@ -9,7 +9,7 @@ services:
       - "${ORACLE_PORT:-1521}:1521"
       - "${ORACLE_EM_PORT:-5500}:5500"
     environment:
-      ORACLE_PWD: "${ORACLE_PWD}"
+      ORACLE_PASSWORD: "${ORACLE_PWD}"
     volumes:
       - oracledata:/opt/oracle/oradata
     networks:
