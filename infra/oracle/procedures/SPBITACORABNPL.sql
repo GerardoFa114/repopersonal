@@ -1,61 +1,69 @@
-create PROCEDURE                  SPBITACORABNPL(PA_TIPOMENSAJE       IN    VARCHAR2, 
-													PA_PAISCTE           IN    NUMBER,
-													PA_CANALCTE          IN    NUMBER,
-													PA_SUCURSALCTE       IN    NUMBER,
-													PA_FOLIOCTE          IN    NUMBER,
-													PA_CODFECHA          IN    VARCHAR2,
-													PA_PLATFORMID        IN    VARCHAR2,
-													PA_SUBPLATFORMID     IN    VARCHAR2,
-													PA_SICU              IN    VARCHAR2,
-													PA_PAISHEAD          IN    NUMBER,
-													PA_CANALHEAD         IN    NUMBER,
-													PA_SUCURSALHEAD      IN    NUMBER,
-													PA_IP                IN    VARCHAR2,
-													PA_USER              IN    VARCHAR2,
-													PA_COMERNAME         IN    VARCHAR2,
-													PA_COMERAFIL         IN    VARCHAR2,
-													PA_COMERGIRO         IN    VARCHAR2,
-													PA_COMERSKU          IN    VARCHAR2,
-													PA_TARJETA           IN    VARCHAR2,
-													PA_OFERID            IN    NUMBER,
-													PA_OFERPLAZO         IN    NUMBER,
-													PA_OFERMONTO         IN    NUMBER,
-													PA_OFERINTERES       IN    NUMBER,
-													PA_OFERABONOP        IN    NUMBER,
-													PA_OFERABONON        IN    NUMBER,
-													PA_OFERABONOD        IN    NUMBER,
-													PA_DEPCUENTA         IN    VARCHAR2,
-													PA_DEPCODIGO         IN    VARCHAR2,
-													PA_DEPDIVISA         IN    VARCHAR2,
-													PA_DEPMONTO          IN    NUMBER,
-													PA_DEPFOLIO          IN    VARCHAR2,
-													PA_DEPREFERENCIA     IN    VARCHAR2,
-													PA_DEPOBS            IN    VARCHAR2,
-													PA_DEPFECHA          IN    VARCHAR2,
-													PA_DEPLATITUD        IN    VARCHAR2,
-													PA_DEPLONGITUD       IN    VARCHAR2,
-													PA_DOCEMP            IN    VARCHAR2,
-													PA_DOCTELEMISOR      IN    VARCHAR2,
-													PA_DOCTELRECEPTOR    IN    VARCHAR2,
-													PA_DOCNOMBRE         IN    VARCHAR2,
-													PA_DOCAPELLIDOP      IN    VARCHAR2,
-													PA_DOCAPELLIDOM      IN    VARCHAR2,
-													PA_AUTORIZACION      IN    VARCHAR2,
-													PA_PEDPAIS           IN    NUMBER,
-													PA_PEDCANAL          IN    NUMBER,
-													PA_PEDSUCURSAL       IN    NUMBER,
-													PA_PEDPEDIDO         IN    NUMBER,
-													PA_IDBLOQC           IN    NUMBER,
-													PA_IDBLOQD           IN    NUMBER,
-													PA_IDBLOQE           IN    NUMBER,
-													PA_RUTATICKET        IN    VARCHAR2,
-													PA_RUTAAMORT         IN    VARCHAR2,
-													PA_DOCTICKET         IN    CLOB,
-													PA_DOCAMORT          IN    CLOB,
-													PA_CAT               IN    NUMBER,
-													PA_RESPCOBRANZA      IN    VARCHAR2,
-													PA_DESCRESPCOBRANZA  IN    VARCHAR2,
-													PA_RESPUESTA         OUT   VARCHAR2
+create PROCEDURE SPBITACORABNPL(
+	PA_TIPOMENSAJE IN VARCHAR2,
+	PA_PAISCTE           IN    NUMBER, -- PA_IDPAIS IN NUMBER,
+	PA_CANALCTE          IN    NUMBER, -- PA_IDCANAL IN NUMBER,
+	PA_SUCURSALCTE       IN    NUMBER, -- PA_IDSUCURSAL  IN NUMBER,
+	PA_FOLIOCTE          IN    NUMBER, -- PA_IDFOLIO  IN NUMBER,
+	PA_CODFECHA          IN    VARCHAR2,
+	PA_PLATFORMID        IN    VARCHAR2,
+	PA_SUBPLATFORMID     IN    VARCHAR2,
+	PA_SICU              IN    VARCHAR2,
+	PA_PAISHEAD          IN    NUMBER, 	-- PA_GESTPAISID IN NUMBER,
+	PA_CANALHEAD         IN    NUMBER, 	-- PA_GESTCANALID IN NUMBER,
+	PA_SUCURSALHEAD      IN    NUMBER, 	-- PA_GESTSUCURSALID IN NUMBER,
+	PA_IP                IN    VARCHAR2,
+	PA_USER              IN    VARCHAR2,
+	PA_COMERNAME         IN    VARCHAR2,
+	PA_COMERAFIL         IN    VARCHAR2,
+	PA_COMERGIRO         IN    VARCHAR2,
+	PA_COMERSKU          IN    VARCHAR2,
+	PA_TARJETA           IN    VARCHAR2,
+	PA_OFERID            IN    NUMBER,
+	PA_OFERPLAZO         IN    NUMBER,
+	PA_OFERMONTO         IN    NUMBER,
+	PA_OFERINTERES       IN    NUMBER,
+	PA_OFERABONOP        IN    NUMBER,
+	PA_OFERABONON        IN    NUMBER,
+	PA_OFERABONOD        IN    NUMBER,
+	PA_DEPCUENTA         IN    VARCHAR2,
+	PA_DEPCODIGO         IN    VARCHAR2,
+	PA_DEPDIVISA         IN    VARCHAR2,
+	PA_DEPMONTO          IN    NUMBER,
+	PA_DEPFOLIO          IN    VARCHAR2,
+	PA_DEPREFERENCIA     IN    VARCHAR2,
+	PA_DEPOBS            IN    VARCHAR2,
+	PA_DEPFECHA          IN    VARCHAR2,
+	PA_DEPLATITUD        IN    VARCHAR2,
+	PA_DEPLONGITUD       IN    VARCHAR2,
+	PA_DOCEMP            IN    VARCHAR2,
+	PA_DOCTELEMISOR      IN    VARCHAR2,
+	PA_DOCTELRECEPTOR    IN    VARCHAR2,
+	PA_DOCNOMBRE         IN    VARCHAR2,
+	PA_DOCAPELLIDOP      IN    VARCHAR2,
+	PA_DOCAPELLIDOM      IN    VARCHAR2,
+	PA_AUTORIZACION      IN    VARCHAR2,
+	PA_PEDPAIS           IN    NUMBER,
+	PA_PEDCANAL          IN    NUMBER,
+	PA_PEDSUCURSAL       IN    NUMBER,
+	PA_PEDPEDIDO         IN    NUMBER,
+	PA_IDBLOQC           IN    NUMBER,
+	PA_IDBLOQD           IN    NUMBER,
+	PA_IDBLOQE           IN    NUMBER,
+	PA_RUTATICKET        IN    VARCHAR2,
+	PA_RUTAAMORT         IN    VARCHAR2,
+	PA_DOCTICKET         IN    CLOB,
+	PA_DOCAMORT          IN    CLOB,
+	PA_CAT               IN    NUMBER,
+	PA_RESPCOBRANZA      IN    VARCHAR2,
+	PA_DESCRESPCOBRANZA  IN    VARCHAR2,
+	
+	PA_STSID IN NUMBER,
+    PA_BLOQUEOS IN VARCHAR2,
+	PA_PERPAGOID  IN NUMBER,
+    PA_PERPAGOSDIAS IN VARCHAR2,
+    PA_CAPACIDADESPGO IN VARCHAR2
+
+	PA_RESPUESTA         OUT   VARCHAR2
 )
 
 IS
@@ -65,7 +73,35 @@ IS
     VL_MENSAJE2           VARCHAR2(250) := 'REGISTRO EXITOSO';
     VL_USUARIOACTUALIZA   VARCHAR2(20) := 'URSTAZ';
     VL_TARJETA            VARCHAR2(16) := '0000000000000000';
+	VL_RESP_ING			  VARCHAR2(4000);
+	
+	EXC_INGESTA  			  EXCEPTION;
 BEGIN
+	IF PA_CAPACIDADESPGO IS NOT NULL THEN
+		VL_RESP_ING := RCREDITO.FNINGESTACDPCP (
+            PA_PAISCTE, 
+            PA_CANALCTE, 
+            PA_SUCURSALCTE,
+            PA_FOLIOCTE,
+			PA_STSID, 
+            PA_BLOQUEOS,
+			PA_PAISHEAD,
+            PA_CANALHEAD,
+            PA_SUCURSALHEAD,
+			PA_PERPAGOID, 
+            PA_PERPAGOSDIAS, 
+            PA_CAPACIDADESPGO);
+
+		IF (VL_RESP_ING.CODIGO == 0) THEN
+			VL_MENSAJE := 'INGESTA EXITOSA'
+			RAISE EXC_JERRYS;
+		ELSE
+			VL_MENSAJE := 'ERROR EN INGESTA'
+			RAISE OTHERS;
+		END IF;
+		
+	END IF;
+	
     INSERT INTO RCREDITO.TABNPLHEADER(FCTIPOMENSAJE,
                                       FIPAISCTE,
                                       FICANALCTE,
@@ -203,6 +239,8 @@ BEGIN
 COMMIT;
         PA_RESPUESTA := VL_COD00 ||'|'|| VL_MENSAJE2;
 EXCEPTION
+	WHEN EXC_JERRYS THEN
+		PA_RESPUESTA := VL_COD00 ||'|'|| VL_MENSAJE;
     WHEN DUP_VAL_ON_INDEX THEN
         PA_RESPUESTA := VL_COD01 ||'|'|| VL_MENSAJE;
         ROLLBACK;
