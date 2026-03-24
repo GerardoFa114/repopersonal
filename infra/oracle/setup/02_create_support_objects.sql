@@ -1,5 +1,3 @@
-whenever sqlerror exit failure rollback
-
 CREATE TABLE USRATRZBAZ.ATRZ_ERROR_LOG (
     FDREGISTRO DATE,
     FICODIGO NUMBER,
