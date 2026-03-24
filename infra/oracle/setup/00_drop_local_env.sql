@@ -1,5 +1,4 @@
-whenever sqlerror continue
-
+--Se ejecucata en el worksheet , no el sql*plu
 BEGIN
     EXECUTE IMMEDIATE 'DROP USER RCREDITO CASCADE';
 EXCEPTION
