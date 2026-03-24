@@ -1,4 +1,4 @@
 package com.practicas.tiposprimitivos;
 
-public class AreaCuadrado {
+public class Densidad {
 }
