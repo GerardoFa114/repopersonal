@@ -1,9 +1,18 @@
-create FUNCTION          FNATPRLS0432 (PA_FIPAIS           IN NUMBER
+create or replace  FUNCTION          RCREDITO.FNATPRLS0432 (
+                                                  PA_FIPAIS           IN NUMBER
                                                  ,PA_FICANAL          IN NUMBER
                                                  ,PA_FISUCURSAL       IN NUMBER
                                                  ,PA_FIFOLIO          IN NUMBER
                                                  ,PA_FIINTPAGADOS     IN NUMBER
-                                                 ,PA_FCUSUARIOACTUAL  IN VARCHAR2 )
+                                                 ,PA_FCUSUARIOACTUAL  IN VARCHAR2
+                                                 ,PA_STSID            IN NUMBER DEFAULT NULL
+                                                 ,PA_BLOQUEOS         IN VARCHAR2 DEFAULT NULL
+                                                 ,PA_GESTPAISID       IN NUMBER DEFAULT NULL
+                                                 ,PA_GESTCANALID      IN NUMBER DEFAULT NULL
+                                                 ,PA_GESTSUCURSALID   IN NUMBER DEFAULT NULL
+                                                 ,PA_PERPAGOID        IN NUMBER DEFAULT NULL
+                                                 ,PA_PERPAGOSDIAS     IN VARCHAR2 DEFAULT NULL
+                                                 ,PA_CAPACIDADESPGO   IN VARCHAR2 DEFAULT NULL )
 
 RETURN SYS_REFCURSOR
 IS
@@ -33,6 +42,25 @@ IS
    VL_FLAGEXIS          VARCHAR2 (1)  := 'N';
    VL_FINIVEL           RCREDITO.TANIVELCLIENTE.FINIVEL%TYPE            :=  0;
    VL_FCUSUARIOACT      RCREDITO.TANIVELCLIENTE.FCUSUARIOACTUALIZA%TYPE := '';
+
+   FUNCTION FN_RET_INGESTA RETURN SYS_REFCURSOR
+   IS
+   BEGIN
+      RETURN RCREDITO.FNINGESTACDPCP(
+          PA_IDPAIS => PA_FIPAIS,
+          PA_IDCANAL => PA_FICANAL,
+          PA_IDSUCURSAL => PA_FISUCURSAL,
+          PA_IDFOLIO => PA_FIFOLIO,
+          PA_STSID => PA_STSID,
+          PA_BLOQUEOS => PA_BLOQUEOS,
+          PA_GESTPAISID => PA_GESTPAISID,
+          PA_GESTCANALID => PA_GESTCANALID,
+          PA_GESTSUCURSALID => PA_GESTSUCURSALID,
+          PA_PERPAGOID => PA_PERPAGOID,
+          PA_PERPAGOSDIAS => PA_PERPAGOSDIAS,
+          PA_CAPACIDADESPGO => PA_CAPACIDADESPGO
+      );
+   END FN_RET_INGESTA;
 
 BEGIN
 
@@ -99,6 +127,11 @@ BEGIN
                                                SYSDATE,SYSDATE,VL_FCUSUARIOACT,
                                                SYSDATE );
           COMMIT;
+
+           IF PA_CAPACIDADESPGO IS NOT NULL THEN
+              RETURN FN_RET_INGESTA;
+           END IF;
+
           OPEN RCL_CURSALIDA1 FOR SELECT CSL_00 RESULTADO ,CSL_ALTAOK DETALLE
                                     FROM DUAL;
           RETURN RCL_CURSALIDA1;
@@ -129,6 +162,11 @@ BEGIN
 
          IF SQL%FOUND THEN
             COMMIT;
+
+            IF PA_CAPACIDADESPGO IS NOT NULL THEN
+               RETURN FN_RET_INGESTA;
+            END IF;
+
             OPEN RCL_CURSALIDA1 FOR  SELECT CSL_00 RESULTADO ,CSL_MODIOK DETALLE
                                        FROM DUAL;
             RETURN RCL_CURSALIDA1;
