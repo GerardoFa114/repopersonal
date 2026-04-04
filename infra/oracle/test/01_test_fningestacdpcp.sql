@@ -112,3 +112,100 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE('CASO 3 CODIGO=' || v_codigo || ' MENSAJE=' || v_mensaje);
 END;
 /
+
+prompt =====================================
+prompt CASO 4: INGESTA EXITOSA CON PERIODICIDAD QUINCENAL
+prompt =====================================
+
+DECLARE
+    v_cursor SYS_REFCURSOR;
+    v_codigo NUMBER;
+    v_mensaje VARCHAR2(300);
+BEGIN
+    v_cursor := RCREDITO.FNINGESTACDPCP(
+        1,
+        1,
+        10,
+        1001,
+        3,
+        '104,115',
+        1,
+        99,
+        999,
+        13,
+        '7,21',
+        '{24,1600,1000|23,800,600}'
+    );
+
+    FETCH v_cursor INTO v_codigo, v_mensaje;
+    CLOSE v_cursor;
+
+    DBMS_OUTPUT.PUT_LINE('CASO 4 CODIGO=' || v_codigo || ' MENSAJE=' || v_mensaje);
+END;
+/
+
+SELECT FIPAIS, FICANAL, FISUCURSAL, FIFOLIO, FNPERIODO, FNDIAQ1, FNDIAQ2, FNDIAM
+  FROM RCREDITO.TADIAPAGOQM
+ WHERE FIPAIS = 1 AND FICANAL = 1 AND FISUCURSAL = 10 AND FIFOLIO = 1001;
+
+prompt =====================================
+prompt CASO 5: CAPACIDADES MAL FORMADAS
+prompt =====================================
+
+DECLARE
+    v_cursor SYS_REFCURSOR;
+    v_codigo NUMBER;
+    v_mensaje VARCHAR2(300);
+BEGIN
+    v_cursor := RCREDITO.FNINGESTACDPCP(
+        1,
+        1,
+        10,
+        1001,
+        3,
+        '104',
+        1,
+        99,
+        999,
+        1,
+        '15',
+        '{24,ABC,1000}'
+    );
+
+    FETCH v_cursor INTO v_codigo, v_mensaje;
+    CLOSE v_cursor;
+
+    DBMS_OUTPUT.PUT_LINE('CASO 5 CODIGO=' || v_codigo || ' MENSAJE=' || v_mensaje);
+END;
+/
+
+prompt =====================================
+prompt CASO 6: BLOQUEOS MAL FORMADOS
+prompt =====================================
+
+DECLARE
+    v_cursor SYS_REFCURSOR;
+    v_codigo NUMBER;
+    v_mensaje VARCHAR2(300);
+BEGIN
+    v_cursor := RCREDITO.FNINGESTACDPCP(
+        1,
+        1,
+        10,
+        1001,
+        3,
+        '104,ABC',
+        1,
+        99,
+        999,
+        1,
+        '15',
+        '{24,1500,900}'
+    );
+
+    FETCH v_cursor INTO v_codigo, v_mensaje;
+    CLOSE v_cursor;
+
+    DBMS_OUTPUT.PUT_LINE('CASO 6 CODIGO=' || v_codigo || ' MENSAJE=' || v_mensaje);
+END;
+/
