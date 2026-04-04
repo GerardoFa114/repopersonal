@@ -1,4 +1,4 @@
-package com.practicas.tiposprimitivos;
+package com.practicas.tiposprimitivos.geometria;
 
 public class AreaCirculo {
     public static void main(String[] args ){

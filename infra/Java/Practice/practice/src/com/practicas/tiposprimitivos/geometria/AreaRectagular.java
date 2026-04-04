@@ -1,4 +1,4 @@
-package com.practicas.tiposprimitivos;
+package com.practicas.tiposprimitivos.geometria;
 
 public class AreaRectagular {
     public static void main(String[] args) {

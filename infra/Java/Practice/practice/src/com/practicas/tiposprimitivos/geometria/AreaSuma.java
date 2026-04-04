@@ -1,4 +1,4 @@
-package com.practicas.tiposprimitivos;
+package com.practicas.tiposprimitivos.geometria;
 
 public class AreaSuma {
     //Calcula los valores de la siguientes variables cuando a= 5 y  b= 8
