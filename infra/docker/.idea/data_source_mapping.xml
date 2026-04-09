@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourcePerFileMappings">
-    <file url="file://$PROJECT_DIR$/../oracle/fuctions/FNATPRLS0432.sql" value="17ef52d1-7de8-4c0f-a69a-99186831ec37" />
-    <file url="file://$PROJECT_DIR$/../oracle/fuctions/FNINGESTACDPCP.sql" value="17ef52d1-7de8-4c0f-a69a-99186831ec37" />
-    <file url="file://$PROJECT_DIR$/../oracle/procedures/SPBITACORABNPL.sql" value="17ef52d1-7de8-4c0f-a69a-99186831ec37" />
     <file url="file://$PROJECT_DIR$/../oracle/setup/00_drop_local_env.sql" value="e60f630e-b759-4726-adbf-7792d1dd8501" />
     <file url="file://$PROJECT_DIR$/../oracle/setup/01_create_local_users.sql" value="e60f630e-b759-4726-adbf-7792d1dd8501" />
     <file url="file://$PROJECT_DIR$/../oracle/setup/02_create_support_objects.sql" value="e60f630e-b759-4726-adbf-7792d1dd8501" />
